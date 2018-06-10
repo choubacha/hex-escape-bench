@@ -36,6 +36,14 @@ fn main() {
         }
     });
 
+    time_it("from str unchecked", || {
+        for (b1, b2) in bytes.iter() {
+            unsafe {
+                u8::from_str_radix(std::str::from_utf8_unchecked(&[*b1, *b2]), 16).unwrap();
+            }
+        }
+    });
+
     time_it("from char", || {
         for (b1, b2) in bytes.iter() {
             (
@@ -45,9 +53,15 @@ fn main() {
         }
     });
 
-    time_it("str formation", || {
+    time_it("from_utf8", || {
         for (b1, b2) in bytes.iter() {
             std::str::from_utf8(&[*b1, *b2]).unwrap();
+        }
+    });
+
+    time_it("from_utf8_unchecked", || {
+        for (b1, b2) in bytes.iter() {
+            unsafe { std::str::from_utf8_unchecked(&[*b1, *b2]); }
         }
     });
 }
